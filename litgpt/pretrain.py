@@ -195,6 +195,10 @@ def main(
     with fabric.init_module(empty_init=True):
         model = GPT(config)
 
+    replace_activation_by_torch_module(model, torch.nn.GELU, 'GELU')
+    replace_activation_by_torch_module(model, torch.nn.SiLU, 'GELU')
+    print('model =', model) 
+
     initialize_weights(fabric, model, n_layer=config.n_layer, n_embd=config.n_embd)
 
     if train.tie_embeddings:
